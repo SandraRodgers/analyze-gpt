@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { ref } from "vue";
 import { useContentStore } from "../stores/content";
 
 const props = defineProps(["questionNum", "index"]);
@@ -7,7 +7,6 @@ const contentStore = useContentStore();
 </script>
 
 <template>
-  <div>{{ questionNum }}</div>
   <div>
     <label
       :for="`question${questionNum}`"

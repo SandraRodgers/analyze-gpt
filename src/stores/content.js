@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { defineStore } from "pinia";
 
 export const useContentStore = defineStore("content", () => {
@@ -10,14 +10,15 @@ export const useContentStore = defineStore("content", () => {
   const messages = ref([]);
   const tokenLength = ref(0);
   const tokenLoading = ref(false);
+  const gptAnalysis = ref("");
+  const loadingGPT = ref(false);
 
   function checkTokens(e) {
-    console.log("hit");
     tokenLoading.value = true;
     fetch("https://OpenAI-Deepgram-Server.sandrar.repl.co/tokenize", {
       method: "POST",
       body: JSON.stringify({
-        string: e.target.value,
+        string: e,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +26,6 @@ export const useContentStore = defineStore("content", () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         tokenLoading.value = false;
         tokenLength.value = data.tokens;
       });
@@ -44,6 +44,8 @@ export const useContentStore = defineStore("content", () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        loadingGPT.value = false;
+        gptAnalysis.value = data.message.content;
       });
   }
 
@@ -79,5 +81,7 @@ export const useContentStore = defineStore("content", () => {
     checkTokens,
     tokenLength,
     tokenLoading,
+    gptAnalysis,
+    loadingGPT,
   };
 });
