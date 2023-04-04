@@ -1,0 +1,37 @@
+<script setup>
+import { ref } from "vue";
+import FormInput from "../components/FormInput.vue";
+import { useContentStore } from "../stores/content";
+import { PlusIcon } from "@heroicons/vue/20/solid";
+const contentStore = useContentStore();
+</script>
+
+<template>
+  <div
+    v-for="(num, index) in contentStore.numInputs"
+    :key="num"
+    class="mx-40 mt-10"
+  >
+    <form-input :questionNum="num" :index="index" />
+  </div>
+  <div class="mx-40 mt-10 flex justify-center">
+    <button
+      @click="contentStore.numInputs++"
+      type="button"
+      class="rounded-full bg-indigo-200 p-2 text-gray-900 shadow-sm hover:bg-indigo-50 ring-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      <PlusIcon class="h-5 w-5" aria-hidden="true" />
+    </button>
+  </div>
+  <div class="mx-40 mt-20 flex justify-center">
+    <button
+      type="button"
+      @click="contentStore.addQuestions"
+      class="rounded w-80 bg-indigo-600 px-2 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      Submit
+    </button>
+  </div>
+</template>
+
+<style scoped></style>
