@@ -71,7 +71,7 @@ watch(transcript, () => {
 
 <template>
   <div class="min-h-[450px]">
-    <div class="mx-40 mt-20">
+    <div class="mx-0 mt-40">
       <h3 class="text-base font-semibold leading-6 text-gray-900 mb-2">
         Step 2
       </h3>
@@ -82,21 +82,7 @@ watch(transcript, () => {
         Is your document audio or text?
       </p>
 
-      <div class="sm:hidden">
-        <label for="tabs" class="sr-only">Select a tab</label>
-        <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
-        <select
-          id="tabs"
-          name="tabs"
-          class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-        >
-          <option v-for="tab in tabs" :key="tab.name" :selected="tab.current">
-            {{ tab.name }}
-          </option>
-        </select>
-      </div>
-
-      <div class="hidden sm:block mx-10">
+      <div class="mx-10">
         <div class="border-b border-gray-200">
           <nav class="-mb-px flex space-x-8" aria-label="Tabs">
             <a
@@ -128,7 +114,7 @@ watch(transcript, () => {
       </div>
     </div>
 
-    <div v-if="tabs[1].current" class="mx-40 mt-10">
+    <div v-if="tabs[1].current" class="mx-0 mt-10">
       <label
         for="comment"
         class="block mx-10 text-sm leading-6 text-gray-900 mb-20"
@@ -156,7 +142,7 @@ watch(transcript, () => {
         </div>
       </div>
     </div>
-    <div v-else class="mx-40 mt-10">
+    <div v-else class="mx-0 mt-10">
       <div class="h-16 mx-10">
         <p class="block mb-6 text-sm leading-6 text-gray-900">
           Select an audio file to transcribe:

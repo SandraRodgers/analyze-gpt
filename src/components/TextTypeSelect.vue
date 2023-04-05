@@ -4,7 +4,7 @@ const contentStore = useContentStore();
 </script>
 
 <template>
-  <div class="w-3/12 mx-40 mt-10">
+  <div class="mx-0 mt-6">
     <h3 class="text-base font-semibold leading-6 text-gray-900 mb-2">Step 1</h3>
     <label
       for="text-type"

@@ -4,11 +4,13 @@ import MainText from "./components/MainText.vue";
 import QuestionsForm from "./components/QuestionsForm.vue";
 import Analysis from "./components/Analysis.vue";
 import { useContentStore } from "./stores/content";
+import HeaderMain from "./components/HeaderMain.vue";
 const contentStore = useContentStore();
 </script>
 
 <template>
-  <main class="flex justify-center w-screen">
+  <header-main />
+  <main class="flex flex-col items-center w-screen">
     <div class="flex flex-col bg-white w-[80%]">
       <text-type-select />
       <main-text />
