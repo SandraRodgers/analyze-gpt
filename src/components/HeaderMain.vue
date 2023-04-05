@@ -16,7 +16,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/20/solid";
           />
         </div>
       </div>
-      <p class="mt-6 text-base lg:text-lg leading-8 text-gray-600">
+      <p class="mt-6 text-sm sm:text-base lg:text-lg leading-8 text-gray-600">
         The brain of OpenAI to analyze audio and video documents. Audio
         transcription powered by Deepgram.
       </p>

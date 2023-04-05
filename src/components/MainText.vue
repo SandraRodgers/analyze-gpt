@@ -82,7 +82,7 @@ watch(transcript, () => {
         Is your document audio or text?
       </p>
 
-      <div class="mx-10">
+      <div class="mx-0 sm:mx-10">
         <div class="border-b border-gray-200">
           <nav class="-mb-px flex space-x-8" aria-label="Tabs">
             <a
@@ -117,15 +117,15 @@ watch(transcript, () => {
     <div v-if="tabs[1].current" class="mx-0 mt-10">
       <label
         for="comment"
-        class="block mx-10 text-sm leading-6 text-gray-900 mb-20"
+        class="block mx-0 sm:mx-10 text-sm leading-6 text-gray-900 mb-20"
         >Copy your text into the field:</label
       >
-      <div class="flex flex-col items-end mx-10 mt-2">
+      <div class="flex flex-col items-end mx-0 sm:mx-10 mt-2">
         <textarea
           rows="4"
           v-model="contentStore.mainText"
           @input="contentStore.checkTokens($event.target.value)"
-          class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+          class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6 text-sm"
         />
         <div class="w-full mx-10 flex justify-between">
           <div class="text-xs mt-1 mx-10">
@@ -143,14 +143,14 @@ watch(transcript, () => {
       </div>
     </div>
     <div v-else class="mx-0 mt-10">
-      <div class="h-16 mx-10">
+      <div class="h-16 mx-0 sm:mx-10">
         <p class="block mb-6 text-sm leading-6 text-gray-900">
           Select an audio file to transcribe.
           <b>Be sure to click the Transcribe button!</b>
         </p>
 
         <form>
-          <div class="flex">
+          <div class="flex sm:flex-row flex-col">
             <label for="file" class="custom-file-upload cursor-pointer">
               <input
                 id="file"
@@ -174,8 +174,10 @@ watch(transcript, () => {
             >
               {{ file.name }}
             </p>
-            <div v-if="isTranscribing" class="flex items-center ml-4">
-              <span class="mr-4 text-xs animate-pulse">Transcribing...</span>
+            <div v-if="isTranscribing" class="flex items-center ml-4 sm:ml-4">
+              <span class="mr-0 sm:mr-4 text-xs animate-pulse"
+                >Transcribing...</span
+              >
               <svg
                 class="animate-spin -ml-1 mr-3 h-4 w-5 text-indigo-500"
                 xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +207,7 @@ watch(transcript, () => {
           v-if="transcript"
           v-model="transcript"
           @input="contentStore.checkTokens($event.target.value)"
-          class="mt-10 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+          class="mt-24 sm:mt-10 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 text-sm sm:leading-6"
           rows="4"
         ></textarea>
         <div class="w-full mx-10 flex justify-between">
@@ -232,7 +234,7 @@ input[type="file"] {
   display: none;
 }
 .custom-file-upload {
-  @apply rounded bg-white h-6 mr-4 px-4 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
+  @apply rounded  mb-4 sm:mb-0 bg-white h-6 mr-0 sm:mr-4 px-4 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
 }
 
 textarea::placeholder {

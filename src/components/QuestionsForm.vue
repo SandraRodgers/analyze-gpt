@@ -7,14 +7,14 @@ const contentStore = useContentStore();
 </script>
 
 <template>
-  <div>
-    <h3 class="text-base mx-0 mt-40 font-semibold leading-6 text-gray-900 mb-2">
+  <div class="mt-10">
+    <h3 class="text-base mx-0 mt-20 font-semibold leading-6 text-gray-900 mb-2">
       Step 3
     </h3>
     <p class="block mb-6 text-sm font-medium leading-6 text-gray-900 mx-0 mt-4">
       Ask as many questions as you want about the document:
     </p>
-    <div class="mx-10">
+    <div class="mx-0 sm:mx-10">
       <div
         v-for="(num, index) in contentStore.numInputs"
         :key="num"
