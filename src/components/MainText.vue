@@ -145,7 +145,8 @@ watch(transcript, () => {
     <div v-else class="mx-0 mt-10">
       <div class="h-16 mx-10">
         <p class="block mb-6 text-sm leading-6 text-gray-900">
-          Select an audio file to transcribe:
+          Select an audio file to transcribe.
+          <b>Be sure to click the Transcribe button!</b>
         </p>
 
         <form>
