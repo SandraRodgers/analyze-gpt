@@ -23,6 +23,7 @@ const contentStore = useContentStore();
         <option>podcast</option>
         <option>news story</option>
         <option>quote</option>
+        <option>recording</option>
       </select>
     </div>
   </div>

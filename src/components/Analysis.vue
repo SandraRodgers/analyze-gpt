@@ -6,7 +6,7 @@ const contentStore = useContentStore();
 
 <template>
   <div class="mx-40 mb-40">
-    <h3 class="text-base mt-20 font-semibold leading-6 text-gray-900 mb-2">
+    <h3 class="text-base mt-10 font-semibold leading-6 text-gray-900 mb-2">
       Step 4
     </h3>
     <p
@@ -15,18 +15,18 @@ const contentStore = useContentStore();
     >
       Get your analysis:
     </p>
-    <div
-      v-if="contentStore.gptAnalysis.length"
-      class="rounded-md bg-green-50 p-4"
-    >
-      <div class="flex">
+    <div v-if="contentStore.gptAnalysis.length">
+      <div
+        class="bg-green-50 rounded-md p-4 mb-4 my-2 flex items-center"
+        v-for="answer in contentStore.formattedAnalysis"
+        :key="answer"
+      >
         <div class="flex-shrink-0">
           <CheckCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-green-800">Analyze GPT</h3>
-          <div class="mt-2 text-sm text-green-700">
-            <p>{{ contentStore.gptAnalysis }}</p>
+          <div class="text-sm text-green-700">
+            <p>Answer: {{ answer }}</p>
           </div>
         </div>
       </div>

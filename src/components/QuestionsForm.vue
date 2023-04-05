@@ -1,10 +1,8 @@
 <script setup>
-import { ref, watchEffect } from "vue";
 import FormInput from "../components/FormInput.vue";
 import { useContentStore } from "../stores/content";
 import { PlusIcon } from "@heroicons/vue/20/solid";
-import { storeToRefs } from "pinia";
-// const { gptAnalysis, loadingGPT } = storeToRefs();
+
 const contentStore = useContentStore();
 </script>
 
@@ -26,7 +24,7 @@ const contentStore = useContentStore();
         :key="num"
         class="mx-40 mt-10"
       >
-        <form-input :questionNum="num" :index="index" />
+        <form-input :questionNum="num" :index="index + 1" />
       </div>
       <div class="mt-10 mx-40 flex justify-center">
         <button

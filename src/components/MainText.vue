@@ -35,9 +35,6 @@ function sendFile() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(
-          data.apiCall.results.channels[0].alternatives[0].transcript
-        );
         transcript.value =
           data.apiCall.results.channels[0].alternatives[0].transcript;
         file.value = [];
@@ -48,7 +45,6 @@ function sendFile() {
 }
 
 function handleAudioFile(e) {
-  console.log(e.target.files);
   file.value = e.target.files;
   for (let i = 0; i <= file.value.length - 1; i++) {
     file.value = file.value[i];
@@ -56,10 +52,8 @@ function handleAudioFile(e) {
 }
 
 function reset() {
-  console.log("hit");
   file.value = [];
   if (tabs && tabs[0] && tabs[0].current) {
-    console.log("true");
     document.getElementById("file").value = "";
   }
 
@@ -67,6 +61,12 @@ function reset() {
   contentStore.mainText = "";
   contentStore.tokenLength = 0;
 }
+
+watch(transcript, () => {
+  if (transcript.value) {
+    contentStore.checkTokens(transcript.value);
+  }
+});
 </script>
 
 <template>
@@ -95,6 +95,7 @@ function reset() {
           </option>
         </select>
       </div>
+
       <div class="hidden sm:block mx-10">
         <div class="border-b border-gray-200">
           <nav class="-mb-px flex space-x-8" aria-label="Tabs">
@@ -133,15 +134,15 @@ function reset() {
         class="block mx-10 text-sm leading-6 text-gray-900 mb-20"
         >Copy your text into the field:</label
       >
-      <div class="mt-2">
+      <div class="flex flex-col items-end mx-10 mt-2">
         <textarea
           rows="4"
           v-model="contentStore.mainText"
           @input="contentStore.checkTokens($event.target.value)"
-          class="mx-10 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+          class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
         />
         <div class="w-full mx-10 flex justify-between">
-          <div class="text-xs mt-1">
+          <div class="text-xs mt-1 mx-10">
             Token length: {{ contentStore.tokenLength }}
           </div>
 
@@ -215,18 +216,25 @@ function reset() {
       <div class="flex flex-col items-end mx-10">
         <textarea
           v-if="transcript"
+          v-model="transcript"
+          @input="contentStore.checkTokens($event.target.value)"
           class="mt-10 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
-          :placeholder="transcript"
           rows="4"
         ></textarea>
-        <button
-          v-if="transcript"
-          type="button"
-          @click="reset()"
-          class="rounded bg-white h-6 mt-6 mr-4 px-4 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          Reset
-        </button>
+        <div class="w-full mx-10 flex justify-between">
+          <div v-if="transcript" class="text-xs mt-1 mx-10">
+            Token length: {{ contentStore.tokenLength }}
+          </div>
+
+          <button
+            v-if="transcript"
+            type="button"
+            @click="reset()"
+            class="relative right-0 rounded bg-white h-6 mr-4 mt-6 px-4 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Reset
+          </button>
+        </div>
       </div>
     </div>
   </div>
