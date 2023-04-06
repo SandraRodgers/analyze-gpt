@@ -33,7 +33,7 @@ const contentStore = useContentStore();
       </div>
       <div class="mx-0 mt-20 flex justify-center">
         <a
-          href="#sec-3"
+          href="#step-4"
           v-smooth-scroll
           type="button"
           @click="contentStore.addQuestions"

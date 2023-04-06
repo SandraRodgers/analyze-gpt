@@ -13,7 +13,7 @@ const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
       Step 4
     </h3>
     <p
-      id="sec-3"
+      id="step-4"
       for="text-type"
       class="block text-sm font-medium leading-6 text-gray-900 mb-6"
     >
