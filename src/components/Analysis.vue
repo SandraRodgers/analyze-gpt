@@ -13,11 +13,13 @@ const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
       Step 4
     </h3>
     <p
+      id="sec-3"
       for="text-type"
       class="block text-sm font-medium leading-6 text-gray-900 mb-6"
     >
       Get your analysis:
     </p>
+    <!-- Loader -->
     <div v-if="loadingGPT" class="flex items-center ml-4">
       <span class="mr-4 text-xs animate-pulse">Analyzing...</span>
       <svg
@@ -41,6 +43,7 @@ const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
         ></path>
       </svg>
     </div>
+    <!-- Analysis result -->
     <div v-if="showAnalysis">
       <div
         class="bg-green-50 rounded-md p-4 mb-4 my-2 flex items-center"

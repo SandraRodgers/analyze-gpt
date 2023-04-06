@@ -13,7 +13,8 @@
     "@heroicons/vue": "^2.0.17",
     "@vueuse/core": "^9.13.0",
     "pinia": "^2.0.33",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue3-smooth-scroll": "^0.8.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

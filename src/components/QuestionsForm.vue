@@ -32,13 +32,15 @@ const contentStore = useContentStore();
         </button>
       </div>
       <div class="mx-0 mt-20 flex justify-center">
-        <button
+        <a
+          href="#sec-3"
+          v-smooth-scroll
           type="button"
           @click="contentStore.addQuestions"
-          class="rounded w-80 mb-10 bg-indigo-600 px-2 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="text-center rounded w-80 mb-10 bg-indigo-600 px-2 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Submit
-        </button>
+        </a>
       </div>
     </div>
   </div>
