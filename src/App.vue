@@ -3,9 +3,7 @@ import TextTypeSelect from "./components/TextTypeSelect.vue";
 import MainText from "./components/MainText.vue";
 import QuestionsForm from "./components/QuestionsForm.vue";
 import Analysis from "./components/Analysis.vue";
-import { useContentStore } from "./stores/content";
 import HeaderMain from "./components/HeaderMain.vue";
-const contentStore = useContentStore();
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const useContentStore = defineStore("content", () => {
@@ -12,25 +12,8 @@ export const useContentStore = defineStore("content", () => {
   const tokenLoading = ref(false);
   const gptAnalysis = ref("");
   const loadingGPT = ref(false);
-  const showAnalysis = ref(false);
+  const singleAnswer = ref(false);
   let num = 0;
-
-  watch(loadingGPT, () => {
-    if (loadingGPT.value === true) {
-      showAnalysis.value = true;
-    }
-    if (loadingGPT.value === false) {
-      showAnalysis.value = false;
-    }
-  });
-
-  watch(gptAnalysis, () => {
-    if (gptAnalysis.value.length) {
-      showAnalysis.value = true;
-    } else {
-      showAnalysis.value = false;
-    }
-  });
 
   function checkTokens(e) {
     tokenLoading.value = true;
@@ -47,18 +30,22 @@ export const useContentStore = defineStore("content", () => {
       .then((data) => {
         tokenLoading.value = false;
         tokenLength.value = data.tokens;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
-  function sendMainText() {
-    loadingGPT.value = true;
+  function sendPrompt() {
+    // loadingGPT.value = true;
 
     if (mainText.value.length === 0) {
-      loadingGPT.value = false;
+      // loadingGPT.value = false;
       alert("Please add a text or transcribe an audio file.");
     } else if (!questionIncrement.value.question1) {
-      loadingGPT.value = false;
+      // loadingGPT.value = false;
       alert("Please add a question.");
+      messages.value = [];
     } else {
       loadingGPT.value = true;
 
@@ -73,7 +60,6 @@ export const useContentStore = defineStore("content", () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          showAnalysis.value = true;
           loadingGPT.value = false;
           gptAnalysis.value = data.message.content;
         });
@@ -97,13 +83,25 @@ export const useContentStore = defineStore("content", () => {
     }
 
     messages.value.push({ role: "user", content: questions.value });
-    sendMainText();
+    if (mainText.value) {
+      sendPrompt();
+    } else {
+      alert("Please add a text or transcribe an audio file.");
+      messages.value = [];
+    }
   }
 
   const formattedAnalysis = computed(() => {
-    let formatted = gptAnalysis.value.split("Answer");
-    formatted.shift();
-    return formatted;
+    if (gptAnalysis.value.includes("Answer")) {
+      singleAnswer.value = false;
+      console.log("contains Answer", gptAnalysis.value.includes("Answer"));
+      let formatted = gptAnalysis.value.split("Answer");
+      formatted.shift();
+      return formatted;
+    } else {
+      singleAnswer.value = true;
+      return gptAnalysis.value;
+    }
   });
 
   return {
@@ -112,7 +110,7 @@ export const useContentStore = defineStore("content", () => {
     numInputs,
     questionIncrement,
     messages,
-    sendMainText,
+    sendPrompt,
     addQuestions,
     checkTokens,
     tokenLength,
@@ -120,6 +118,6 @@ export const useContentStore = defineStore("content", () => {
     gptAnalysis,
     loadingGPT,
     formattedAnalysis,
-    showAnalysis,
+    singleAnswer,
   };
 });

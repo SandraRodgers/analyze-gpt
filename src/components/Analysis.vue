@@ -2,9 +2,11 @@
 import { useContentStore } from "../stores/content";
 import { CheckCircleIcon } from "@heroicons/vue/20/solid";
 import { storeToRefs } from "pinia";
+import Loader from "../components/Loader.vue";
 const contentStore = useContentStore();
 
-const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
+const { gptAnalysis, formattedAnalysis, singleAnswer } =
+  storeToRefs(contentStore);
 </script>
 
 <template>
@@ -20,34 +22,12 @@ const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
       Get your analysis:
     </p>
     <!-- Loader -->
-    <div v-if="loadingGPT" class="flex items-center ml-4">
-      <span class="mr-4 text-xs animate-pulse">Analyzing...</span>
-      <svg
-        class="animate-spin -ml-1 mr-3 h-4 w-5 text-indigo-500"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          class="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="4"
-        ></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-    </div>
+    <loader />
     <!-- Analysis result -->
-    <div v-if="showAnalysis">
+    <div v-if="!singleAnswer">
       <div
         class="bg-green-50 rounded-md p-4 mb-4 my-2 flex items-center"
-        v-for="answer in contentStore.formattedAnalysis"
+        v-for="answer in formattedAnalysis"
         :key="answer"
       >
         <div class="flex-shrink-0">
@@ -56,6 +36,23 @@ const { loadingGPT, showAnalysis } = storeToRefs(contentStore);
         <div class="ml-3">
           <div class="text-sm text-green-700">
             <p>Answer: {{ answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div v-if="gptAnalysis.length">
+        <div class="bg-green-50 rounded-md p-4 mb-4 my-2 flex items-center">
+          <div class="flex-shrink-0">
+            <CheckCircleIcon
+              class="h-5 w-5 text-green-400"
+              aria-hidden="true"
+            />
+          </div>
+          <div class="ml-3">
+            <div class="text-sm text-green-700">
+              <p>{{ gptAnalysis }}</p>
+            </div>
           </div>
         </div>
       </div>
