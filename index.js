@@ -1,34 +1,34 @@
 const envConfig = require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const multer = require("multer");
-const upload = multer();
 const bodyParser = require("body-parser");
 
+const multer = require("multer");
+const upload = multer();
+
 const port = 3000;
-const { encode } = require("gpt-3-encoder");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-//////////// Deepgram Configuration ////////////
-const { Deepgram } = require("@deepgram/sdk");
-const deepgram = new Deepgram(process.env.DG_API);
-
-// app.use(express.static("static"));
-
-//////////// OpenAI Configuration ////////////
+////// OpenAI config //////
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_API,
 });
 const openai = new OpenAIApi(configuration);
 
-// DEEPGRAM ENDPOINT
+////// Deepgram config //////
+const { Deepgram } = require("@deepgram/sdk");
+const deepgram = new Deepgram(process.env.DG_API);
+
+////// Token Counter //////
+const { encode } = require("gpt-3-encoder");
+
+// DEEPGRAM transcription
 app.post("/dg-transcription", upload.single("file"), async (req, res) => {
-  // const dgTime = process.hrtime();
-  console.log(req.body);
   try {
+    console.log("hit endpoint");
     const dgResponse = await deepgram.transcription.preRecorded(
       {
         buffer: req.file.buffer,
@@ -36,19 +36,16 @@ app.post("/dg-transcription", upload.single("file"), async (req, res) => {
       },
       {
         punctuate: true,
-        tag: ["sandra"],
-        tier: "enhanced",
+        model: "nova",
       }
     );
-    // const timerEnd = process.hrtime(dgTime);
-
     res.send({ apiCall: dgResponse });
   } catch (e) {
     console.log("error", e);
   }
 });
 
-//////////// ENDPOINT - tokenize ////////////
+// Token counter
 app.post("/tokenize", async (req, res) => {
   const str = req.body.string;
   try {
@@ -67,18 +64,19 @@ app.post("/tokenize", async (req, res) => {
   }
 });
 
-//////////// ENDPOINT - chat with the AI ////////////
+// Openai chat completion
 app.post("/chat", async (req, res) => {
-  const messages = req.body.messages;
-  console.log(messages);
+  const prompt = req.body.prompt;
+  console.log(prompt);
   try {
-    if (messages == null) {
+    if (prompt == null) {
       throw new Error("We have a problem - no prompt was provided");
     }
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages,
+      messages: prompt,
     });
+    console.log(response.data);
     const completion = response.data.choices[0].message;
     console.log(completion);
     return res.status(200).json({

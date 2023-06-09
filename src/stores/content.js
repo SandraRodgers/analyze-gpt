@@ -7,7 +7,7 @@ export const useContentStore = defineStore("content", () => {
   const numInputs = ref(1);
   const questionIncrement = ref({});
   const questions = ref("");
-  const messages = ref([]);
+  const prompt = ref([]);
   const tokenLength = ref(0);
   const tokenLoading = ref(false);
   const gptAnalysis = ref("");
@@ -37,22 +37,18 @@ export const useContentStore = defineStore("content", () => {
   }
 
   function sendPrompt() {
-    // loadingGPT.value = true;
-
     if (mainText.value.length === 0) {
-      // loadingGPT.value = false;
       alert("Please add a text or transcribe an audio file.");
     } else if (!questionIncrement.value.question1) {
-      // loadingGPT.value = false;
       alert("Please add a question.");
-      messages.value = [];
+      prompt.value = [];
     } else {
       loadingGPT.value = true;
 
-      fetch("https://OpenAI-Deepgram-Server.sandrar.repl.co/chat", {
+      fetch("http://localhost:3000/chat", {
         method: "POST",
         body: JSON.stringify({
-          messages: messages.value,
+          prompt: prompt.value,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -67,34 +63,33 @@ export const useContentStore = defineStore("content", () => {
   }
 
   function addQuestions() {
-    const prompt = {
+    const instructions = {
       role: "system",
       content: `You will answer ${numInputs.value.toString()} questions about the following text, which is a ${
         textType.value ? textType.value : "document"
       }. Begin each answer to each question with the word Answer.`,
     };
-    const main = { role: "user", content: mainText.value };
-    messages.value.push(prompt);
-    messages.value.push(main);
+    const textToAnalyze = { role: "user", content: mainText.value };
+    prompt.value.push(instructions);
+    prompt.value.push(textToAnalyze);
 
     for (const property in questionIncrement.value) {
       num++;
       questions.value += `Question ${num}: ${questionIncrement.value[property]}`;
     }
 
-    messages.value.push({ role: "user", content: questions.value });
+    prompt.value.push({ role: "user", content: questions.value });
     if (mainText.value) {
       sendPrompt();
     } else {
       alert("Please add a text or transcribe an audio file.");
-      messages.value = [];
+      prompt.value = [];
     }
   }
 
   const formattedAnalysis = computed(() => {
     if (gptAnalysis.value.includes("Answer")) {
       singleAnswer.value = false;
-      console.log("contains Answer", gptAnalysis.value.includes("Answer"));
       let formatted = gptAnalysis.value.split("Answer");
       formatted.shift();
       return formatted;
@@ -109,7 +104,6 @@ export const useContentStore = defineStore("content", () => {
     textType,
     numInputs,
     questionIncrement,
-    messages,
     sendPrompt,
     addQuestions,
     checkTokens,

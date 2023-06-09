@@ -29,7 +29,7 @@ function sendFile() {
     formData.append("username", "Sandra Rodgers");
     formData.append("file", file.value);
     isTranscribing.value = true;
-    fetch("https://deepgram-prerecorded.sandrar.repl.co/dg-transcription", {
+    fetch("http://localhost:3000/dg-transcription", {
       method: "POST",
       body: formData,
     })
