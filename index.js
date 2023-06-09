@@ -28,7 +28,6 @@ const { encode } = require("gpt-3-encoder");
 // DEEPGRAM transcription
 app.post("/dg-transcription", upload.single("file"), async (req, res) => {
   try {
-    console.log("hit endpoint");
     const dgResponse = await deepgram.transcription.preRecorded(
       {
         buffer: req.file.buffer,
@@ -67,7 +66,6 @@ app.post("/tokenize", async (req, res) => {
 // Openai chat completion
 app.post("/chat", async (req, res) => {
   const prompt = req.body.prompt;
-  console.log(prompt);
   try {
     if (prompt == null) {
       throw new Error("We have a problem - no prompt was provided");
@@ -76,9 +74,7 @@ app.post("/chat", async (req, res) => {
       model: "gpt-3.5-turbo",
       messages: prompt,
     });
-    console.log(response.data);
     const completion = response.data.choices[0].message;
-    console.log(completion);
     return res.status(200).json({
       success: true,
       message: completion,
