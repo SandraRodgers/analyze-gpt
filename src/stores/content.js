@@ -17,7 +17,7 @@ export const useContentStore = defineStore("content", () => {
 
   function checkTokens(e) {
     tokenLoading.value = true;
-    fetch("https://OpenAI-Deepgram-Server.sandrar.repl.co/tokenize", {
+    fetch("http://localhost:3000/tokenize", {
       method: "POST",
       body: JSON.stringify({
         string: e,
